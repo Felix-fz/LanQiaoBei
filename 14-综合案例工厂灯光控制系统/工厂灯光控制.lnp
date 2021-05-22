@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"工厂灯控制系统.obj" 
+TO "工厂灯光控制" 
+RAMSIZE(256) 

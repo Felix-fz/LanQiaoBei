@@ -1,0 +1,57 @@
+C51 COMPILER V9.52.0.0   COMMON                                                            04/06/2020 00:19:16 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE COMMON
+OBJECT MODULE PLACED IN ..\Output\common.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE ..\System\common.c BROWSE INCDIR(..\Main;..\System;..\Library) DEBUG OBJECT
+                    -EXTEND PRINT(.\common.lst) TABS(2) OBJECT(..\Output\common.obj)
+
+line level    source
+
+   1          #include"common.h"
+   2          
+   3          void Delay5us()   //@11.0592MHz
+   4          {
+   5   1        unsigned char i;
+   6   1      
+   7   1        _nop_();
+   8   1        i = 11;
+   9   1        while (--i);
+  10   1      }
+  11          
+  12          
+  13          void SelectHC573(unsigned char channel)  //Ñ¡Í¨Ëø´æÆ÷º¯Êý
+  14          {
+  15   1        switch(channel)
+  16   1        {
+  17   2          case 4:
+  18   2            P2=(P2&0x1f)|0x80;
+  19   2          break;
+  20   2          case 5:
+  21   2            P2=(P2&0x1f)|0xa0;
+  22   2          break;
+  23   2          case 6:
+  24   2            P2=(P2&0x1f)|0xc0;
+  25   2          break;
+  26   2          case 7:
+  27   2            P2=(P2&0x1f)|0xe0;
+  28   2          break;
+  29   2          case 0:
+  30   2            P2=(P2&0x1f)|0xff;
+  31   2          break;
+  32   2        }
+  33   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     66    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

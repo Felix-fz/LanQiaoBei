@@ -1,0 +1,339 @@
+C51 COMPILER V9.52.0.0   ______________                                                    03/30/2020 11:39:00 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE ______________
+OBJECT MODULE PLACED IN 工厂灯控制系统.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE 工厂灯控制系统.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include"reg52.h"
+   2          #include"intrins.h"
+   3          
+   4          sbit S4=P3^3;
+   5          sbit S5=P3^2;
+   6          
+   7          sfr AUXR=0x8e;
+   8          
+   9          unsigned char code SMG_Duan[19]=
+  10              {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+  11              0x80,0x90,0x88,0x80,0xc6,0xc0,0x86,0x8e,
+  12              0xbf,0x7f,0x3f};
+  13          unsigned char stat_led = 0xff;    //定义LED灯当前开关状态 
+  14          unsigned char count=0,t_s=0,t_m=0,t_h=0;
+  15              
+  16              
+  17          void Delay()    //@11.0592MHz
+  18          {
+  19   1        unsigned char i, j, k;
+  20   1      
+  21   1        _nop_();
+  22   1        _nop_();
+  23   1        i = 5;
+  24   1        j = 52;
+  25   1        k = 195;
+  26   1        do
+  27   1        {
+  28   2          do
+  29   2          {
+  30   3            while (--k);
+  31   3          } while (--j);
+  32   2        } while (--i);
+  33   1      }
+  34          
+  35          
+  36          
+  37          void SelectHC573(unsigned char channel)
+  38          {
+  39   1        switch(channel)
+  40   1        {
+  41   2          case 4:
+  42   2            P2=(P2&0x1f)|0x80;
+  43   2          break;
+  44   2          case 5:
+  45   2            P2=(P2&0x1f)|0xa0;
+  46   2          break;
+  47   2          case 6:
+  48   2            P2=(P2&0x1f)|0xc0;
+  49   2          break;
+  50   2          case 7:
+  51   2            P2=(P2&0x1f)|0xe0;
+  52   2          break;
+  53   2          case 0:
+  54   2            P2=(P2&0x1f)|0x00;
+  55   2          break;
+C51 COMPILER V9.52.0.0   ______________                                                    03/30/2020 11:39:00 PAGE 2   
+
+  56   2        }
+  57   1      }
+  58          
+  59          
+  60          //***********系统初始化函数***********
+  61          void InitSystem()
+  62          {
+  63   1      
+  64   1        SelectHC573(5);
+  65   1        P0=0x00;
+  66   1        
+  67   1      }
+  68          //********************************************
+  69          
+  70          //**********CheckLED**************************
+  71          void CheckLED()
+  72          {
+  73   1        char i;
+  74   1        SelectHC573(4);
+  75   1        for(i = 0; i < 9; i++)
+  76   1        {
+  77   2          stat_led = 0xfe << i;       //逐个点亮LED
+  78   2          P0 = stat_led;
+  79   2          Delay();
+  80   2        }
+  81   1        for(i = 0; i < 9; i++)
+  82   1        {
+  83   2          stat_led = ~(0xfe << i);    //逐个熄灭LED
+  84   2          P0 = stat_led;
+  85   2          Delay();
+  86   2        }
+  87   1        SelectHC573(0);
+  88   1      }
+  89          
+  90          //*********************************************
+  91          
+  92          
+  93          //**********CheckSMG*************************
+  94          void CheckSMG()
+  95          {
+  96   1        char i;
+  97   1        SelectHC573(7);
+  98   1        P0 = 0x00;
+  99   1        for(i = 0; i < 9; i++)
+ 100   1        {
+ 101   2          SelectHC573(6);
+ 102   2          P0 = 0x01 << i;     //逐个点亮数码管
+ 103   2          Delay();
+ 104   2        }
+ 105   1        for(i = 0; i < 9; i++)
+ 106   1        {
+ 107   2          SelectHC573(6);
+ 108   2          P0 = ~(0x01 << i);          //逐个熄灭数码管
+ 109   2          Delay();
+ 110   2        }
+ 111   1        SelectHC573(0);
+ 112   1      }
+ 113          
+ 114          
+ 115          
+ 116          //**********定时器函数************************
+ 117          void Init_Timer0()
+C51 COMPILER V9.52.0.0   ______________                                                    03/30/2020 11:39:00 PAGE 3   
+
+ 118          {
+ 119   1        TMOD=0x21;
+ 120   1        TH1=(65535-50000)/256;   //50ms
+ 121   1        TL1=(65535-50000)%256;
+ 122   1        
+ 123   1        ET0=1;
+ 124   1        EA=1;
+ 125   1        TR0=1;
+ 126   1      }
+ 127          
+ 128          void Server_Timer0() interrupt 1
+ 129          {
+ 130   1        TH1=(65535-50000)/256;   //50ms
+ 131   1        TL1=(65535-50000)%256;
+ 132   1        
+ 133   1        count++;
+ 134   1        if(count==20)
+ 135   1        {
+ 136   2          t_s++;
+ 137   2          count=0;
+ 138   2        }
+ 139   1        if(t_s==60)
+ 140   1        {
+ 141   2          t_m++;
+ 142   2          t_s=0;
+ 143   2        }
+ 144   1        if(t_m==60)
+ 145   1        {
+ 146   2          t_h++;
+ 147   2          t_m=0;
+ 148   2        }
+ 149   1        
+ 150   1      }
+ 151          
+ 152          //********************************************
+ 153          
+ 154          //*********数码管显示函数*********************
+ 155          void DelaySMG(unsigned char t)
+ 156          {
+ 157   1        while(t--);
+ 158   1      }
+ 159          
+ 160          void SMGDisplay_Bit(unsigned char i,unsigned char value)
+ 161          {
+ 162   1        SelectHC573(6);
+ 163   1        P0=0x01<<i;
+ 164   1        SelectHC573(7);
+ 165   1        P0=value;
+ 166   1      //  DelaySMG(500);
+ 167   1      }
+ 168          
+ 169          void SMGDisplay()
+ 170          {
+ 171   1        SMGDisplay_Bit(0,SMG_Duan[t_h/10]);
+ 172   1        DelaySMG(500);
+ 173   1        SMGDisplay_Bit(1,SMG_Duan[t_h%10]);
+ 174   1        DelaySMG(500);
+ 175   1        
+ 176   1        SMGDisplay_Bit(2,SMG_Duan[16]);
+ 177   1        DelaySMG(500);
+ 178   1        
+ 179   1        SMGDisplay_Bit(3,SMG_Duan[t_m/10]);
+C51 COMPILER V9.52.0.0   ______________                                                    03/30/2020 11:39:00 PAGE 4   
+
+ 180   1        DelaySMG(500);
+ 181   1        SMGDisplay_Bit(4,SMG_Duan[t_m%10]);
+ 182   1        DelaySMG(500);
+ 183   1        
+ 184   1        SMGDisplay_Bit(5,SMG_Duan[16]);
+ 185   1        DelaySMG(500);
+ 186   1        
+ 187   1        SMGDisplay_Bit(6,SMG_Duan[t_s/10]);
+ 188   1        DelaySMG(500);
+ 189   1        SMGDisplay_Bit(7,SMG_Duan[t_s%10]);
+ 190   1        DelaySMG(500);
+ 191   1      }
+ 192          //*******************************************
+ 193          
+ 194          //*******************独立按键****************
+ 195          void ScanKeys()
+ 196          {
+ 197   1        if(S5 == 0)             //检测S5信号
+ 198   1        {
+ 199   2          SMGDisplay();       //消抖
+ 200   2          if(S5 == 0)           //确认信号
+ 201   2          {
+ 202   3            while(S5 == 0)      //等待S5松开
+ 203   3            {
+ 204   4              SMGDisplay(); 
+ 205   4            }
+ 206   3            SelectHC573(4);        //松开后在选通LED
+ 207   3            stat_led = (stat_led | 0x40) & (~stat_led | 0xbf);    
+ 208   3            P0 = stat_led;      //执行灯光状态
+ 209   3            SelectHC573(0);     //关闭外设
+ 210   3          }
+ 211   2        }
+ 212   1        
+ 213   1        if(S4 == 0)             
+ 214   1        {
+ 215   2          SMGDisplay();         
+ 216   2          if(S4 == 0)           
+ 217   2          {
+ 218   3            while(S4 == 0)      
+ 219   3            {
+ 220   4              SMGDisplay(); 
+ 221   4            }
+ 222   3            SelectHC573(4);
+ 223   3            stat_led = (stat_led | 0x80) & (~stat_led | 0x7f); 
+ 224   3            P0 = stat_led;      
+ 225   3            SelectHC573(0);
+ 226   3          }
+ 227   2        }
+ 228   1      }
+ 229          
+ 230          //*******************串口相关********************************
+ 231          
+ 232          void Init_Uart()
+ 233          {
+ 234   1        TMOD=0x21;
+ 235   1        TH1=0xfd;
+ 236   1        TL1=0xfd;
+ 237   1        
+ 238   1        TR1=1;      //打开定时器T1
+ 239   1        SCON=0x50;  //8位自动重装
+ 240   1        AUXR=0x00;  //辅助寄存器初始化为0
+ 241   1        ES=1;       //打开串口
+C51 COMPILER V9.52.0.0   ______________                                                    03/30/2020 11:39:00 PAGE 5   
+
+ 242   1        EA=1;      
+ 243   1      }
+ 244          
+ 245          unsigned char command=0x00;  //存放上位机命令变量
+ 246          
+ 247          void Serve_Uart() interrupt 4
+ 248          {
+ 249   1        if(RI==1)    //判断是接收进入单片机
+ 250   1        {
+ 251   2          command = SBUF;  //读命令
+ 252   2          RI=0;            //清零标志位
+ 253   2        }
+ 254   1      }
+ 255          
+ 256          void SendByte(unsigned char dat)
+ 257          {
+ 258   1        SBUF=dat;
+ 259   1        while(TI==0);  //读入命令直到TI变为1即命令全部发送
+ 260   1        TI=0;          //手动清零
+ 261   1      }
+ 262          
+ 263          void ExecuteCommand()  //执行上位机的命令
+ 264          {
+ 265   1        if(command!=0x00)
+ 266   1        {
+ 267   2          switch(command & 0xf0)  //根据具体命令选出类型，因为本设计高四位是命令类型，所以选出高四位
+ 268   2          {
+ 269   3            case 0xa0:
+ 270   3              SelectHC573(4);
+ 271   3              stat_led=(stat_led|0x0f)&(~command|0xf0);  //保持LED灯的其他
+ 272   3              P0=stat_led;
+ 273   3            SelectHC573(0);
+ 274   3            command=0x00;
+ 275   3            break;
+ 276   3            case 0xb0:  
+ 277   3              SendByte((t_h / 10 << 4) | (t_h % 10));
+ 278   3              SendByte((t_m / 10 << 4) | (t_m % 10));
+ 279   3              SendByte((t_s / 10 << 4) | (t_s % 10));
+ 280   3          
+ 281   3            command=0x00;
+ 282   3            break;
+ 283   3          }
+ 284   2          
+ 285   2        } 
+ 286   1      }
+ 287          
+ 288          
+ 289          //*************************************************************
+ 290          
+ 291          
+ 292          void main()
+ 293          {
+ 294   1        InitSystem();
+ 295   1        CheckLED();
+ 296   1        CheckSMG();
+ 297   1        Init_Timer0();
+ 298   1        Init_Uart();
+ 299   1      //  SendByte('A');
+ 300   1        while(1)
+ 301   1        {
+ 302   2          SMGDisplay();
+ 303   2          ScanKeys();
+C51 COMPILER V9.52.0.0   ______________                                                    03/30/2020 11:39:00 PAGE 6   
+
+ 304   2          ExecuteCommand();
+ 305   2        }
+ 306   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    657    ----
+   CONSTANT SIZE    =     19    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

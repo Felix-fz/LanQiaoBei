@@ -1,0 +1,162 @@
+C51 COMPILER V9.52.0.0   MATRIXKEY                                                         06/29/2020 21:08:32 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MATRIXKEY
+OBJECT MODULE PLACED IN ..\Output\matrixkey.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE ..\Code\System\matrixkey.c BROWSE INCDIR(..\Code\Library;..\Code\Main;..\Co
+                    -de\System) DEBUG OBJECTEXTEND PRINT(.\matrixkey.lst) TABS(2) OBJECT(..\Output\matrixkey.obj)
+
+line level    source
+
+   1          #include"matrixkey.h"   
+   2          
+   3          /***************************************************
+   4          *在中断中实现矩阵键盘
+   5          ****************************************************/
+   6          bit keyflag = 0;            // keyflag为1就是按下按键，0不按
+   7          unsigned char keyvalue = 0; // 定义键值
+   8          void MatrixKeyScan()
+   9          {
+  10   1        unsigned char kx=0,ky=0,i,j;
+  11   1        if(keyflag == 0)  // 没有按下时一直扫描
+  12   1        {
+  13   2          P3=(P3&0xc0)|0x0f;P42=0;P44=0;
+  14   2          for(i=0;i<=3;i++)
+  15   2          {
+  16   3            if((  P3&(0x01<<i)) != (0x01<<i))
+  17   3              ky=i+1;
+  18   3          }
+  19   2          
+  20   2          P3=(P3&0xc0)|0x30;P42=1;P44=1;
+  21   2          
+  22   2          for(j=0;j<=1;j++)
+  23   2          {
+  24   3            if((P3&(0x10<<j)) != (0x10<<j))
+  25   3              kx=4-j;
+  26   3          }
+  27   2          if(!P42|!P44)
+  28   2          {
+  29   3            if(P42==0) kx=2;
+  30   3            if(P44==0) kx=1;
+  31   3          }
+  32   2          
+  33   2        }
+  34   1        if(kx==0)  // 排除没有按键按下就计算keyvalue的可能
+  35   1        {
+  36   2          keyflag=0;
+  37   2        }
+  38   1        else
+  39   1        {
+  40   2          keyvalue = kx+(ky-1)*4;
+  41   2          keyflag=1; 
+  42   2        }
+  43   1         
+  44   1      }
+  45          
+  46          
+  47          //void MatrixKeyScan()
+  48          //{
+  49          //  unsigned char kx=0,ky=0;
+  50          //  if(keyflag == 0)  // 没有按下时一直扫描
+  51          //  {
+  52          //    P3=(P3&0xc0)|0x0f;P42=0;P44=0;
+  53          //    if(!P30|!P31|!P32|!P33)
+  54          //    if((P3&0x0f)!=0x0f)
+C51 COMPILER V9.52.0.0   MATRIXKEY                                                         06/29/2020 21:08:32 PAGE 2   
+
+  55          //    {
+  56          //      if(P30==0) ky=1;
+  57          //      if(P31==0) ky=2;
+  58          //      if(P32==0) ky=3;
+  59          //      if(P33==0) ky=4;
+  60          //      
+  61          //  
+  62          
+  63          //    }
+  64          //  
+  65          //    P3=(P3&0xc0)|0x30;P42=1;P44=1;
+  66          //    if(!P34|!P35|!P42|!P44)
+  67          //    {
+  68          //      if(P34==0) kx=4;
+  69          //      if(P35==0) kx=3;
+  70          //      if(P42==0) kx=2;
+  71          //      if(P44==0) kx=1;
+  72          //    }
+  73          //    
+  74          //  } 
+  75          //  if(kx==0)  // 排除没有按键按下就计算keyvalue的可能
+  76          //  {
+  77          //  
+  78          //    keyflag=0;
+  79          //  }
+  80          //  else
+  81          //  {
+  82          //    keyvalue = kx+ky*4-4;
+  83          //    keyflag=1; 
+  84          //  }
+  85          //   
+  86          //}
+  87          
+  88          /*****************************************************/
+  89          
+  90          /*****************************************************
+  91          *消抖函数
+  92          ******************************************************/
+  93          void KeyEliminatBuffet()
+  94          {
+  95   1        Delayms(10);
+  96   1        while(!(P34&P35&P42&P44));
+  97   1      
+  98   1        Delayms(10);
+  99   1      }
+ 100          
+ 101          //void MatrixKeyScanNi()  //主函数扫描
+ 102          //{
+ 103          //  unsigned char kx=0,ky=0,i,j;
+ 104          //  P3=(P3&0xc0)|0x0f;P42=0;P44=0;
+ 105          //  for(i=0;i<=3;i++)
+ 106          //  {
+ 107          //    if((  P3&(0x01<<i)) != (0x01<<i))
+ 108          //      ky=i+1;
+ 109          //  }
+ 110          //    
+ 111          //  P3=(P3&0xc0)|0x30;P42=1;P44=1;
+ 112          //    
+ 113          //  for(j=0;j<=1;j++)
+ 114          //  {
+ 115          //    if((P3&(0x10<<j)) != (0x10<<j))
+ 116          //      kx=4-j;
+C51 COMPILER V9.52.0.0   MATRIXKEY                                                         06/29/2020 21:08:32 PAGE 3   
+
+ 117          //  }
+ 118          //  if(!P42|!P44)
+ 119          //  {
+ 120          //    if(P42==0) kx=2;
+ 121          //    if(P44==0) kx=1;
+ 122          //  }
+ 123          //    
+ 124          //  if(kx==0)  // 排除没有按键按下就计算keyvalue的可能
+ 125          //  {
+ 126          //    keyflag=0;
+ 127          //  }
+ 128          //  else
+ 129          //  {
+ 130          //    keyvalue = kx+(ky-1)*4;
+ 131          //    keyflag=1; 
+ 132          //  }
+ 133          //   
+ 134          //}
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    159    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

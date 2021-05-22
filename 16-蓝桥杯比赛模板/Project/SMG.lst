@@ -1,0 +1,65 @@
+C51 COMPILER V9.52.0.0   SMG                                                               04/01/2020 11:47:40 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE SMG
+OBJECT MODULE PLACED IN ..\Output\SMG.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE ..\System\SMG.c BROWSE INCDIR(..\Main;..\System) DEBUG OBJECTEXTEND PRINT(.
+                    -\SMG.lst) TABS(2) OBJECT(..\Output\SMG.obj)
+
+line level    source
+
+   1          #include"SMG.h"
+   2          
+   3          
+   4          unsigned char code SMG_Duanma[18] = 
+   5             {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+   6              0x80,0x90,0x88,0x80,0xc6,0xc0,0x86,0x8e,
+   7              0xbf,0x7f};
+   8              
+   9          void ShowSMG_Bit(unsigned char dat, unsigned pos)
+  10          {
+  11   1        InitHC138(6);  //??????
+  12   1        P0 = 0x01 << pos;
+  13   1        InitHC138(7);  //??????
+  14   1        P0 = dat;
+  15   1      }
+  16          
+  17          void SMG_Static()
+  18          {
+  19   1        char i,j;  //??,?????
+  20   1        for(i = 0; i < 8; i++)
+  21   1        {
+  22   2          for(j = 0;j < 10; j++)
+  23   2          {
+  24   3            ShowSMG_Bit(SMG_Duanma[j],i);
+  25   3            Delay(60000);
+  26   3          }
+  27   2        }
+  28   1        
+  29   1        for(j = 0;j < 16; j++)
+  30   1        {
+  31   2          InitHC138(6);  //??????
+  32   2          P0 = 0xff;
+  33   2          InitHC138(7);  //??????
+  34   2          P0 = SMG_Duanma[j];
+  35   2          Delay(600000000);
+  36   2          Delay(600000000);
+  37   2          Delay(600000000);
+  38   2          Delay(600000000);
+  39   2        }
+  40   1        
+  41   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    177    ----
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

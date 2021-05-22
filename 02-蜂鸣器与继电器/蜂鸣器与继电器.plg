@@ -1,0 +1,96 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+F:\Workspace\SimpleCPU\À¶ÇÅ±­pre\02-·äÃùÆ÷Óë¼ÌµçÆ÷\·äÃùÆ÷Óë¼ÌµçÆ÷.uvproj
+Project File Date:  03/10/2020
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling ·äÃùÆ÷Óë¼ÌµçÆ÷.c...
+linking...
+Program Size: data=9.0 xdata=0 code=243
+creating hex file from "·äÃùÆ÷Óë¼ÌµçÆ÷"...
+"·äÃùÆ÷Óë¼ÌµçÆ÷" - 0 Error(s), 0 Warning(s).
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling ·äÃùÆ÷Óë¼ÌµçÆ÷.c...
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(148): error C202: 'oxf8': undefined identifier
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(148): error C141: syntax error near 'x90'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(151): error C141: syntax error near '{'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(153): error C141: syntax error near '{'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(156): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(159): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(162): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(165): error C141: syntax error near 'break'
+Target not created
+Build target 'Target 1'
+compiling ·äÃùÆ÷Óë¼ÌµçÆ÷.c...
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(148): error C202: 'oxf8': undefined identifier
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(148): error C141: syntax error near 'x90'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(151): error C141: syntax error near '{'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(153): error C141: syntax error near '{'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(156): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(159): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(162): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(165): error C141: syntax error near 'break'
+Target not created
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling ·äÃùÆ÷Óë¼ÌµçÆ÷.c...
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(148): error C202: 'oxf8': undefined identifier
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(148): error C141: syntax error near 'x90'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(151): error C141: syntax error near '{'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(153): error C141: syntax error near '{'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(155): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(156): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(158): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(159): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(161): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(162): error C141: syntax error near 'break'
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C279: 'P2': multiple initialization
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C247: non-address/-constant initializer
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(164): error C231: 'P2': redefinition
+·äÃùÆ÷Óë¼ÌµçÆ÷.c(165): error C141: syntax error near 'break'
+Target not created

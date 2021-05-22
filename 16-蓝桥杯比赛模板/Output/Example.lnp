@@ -1,0 +1,7 @@
+"..\Output\STARTUP.obj",
+"..\Output\main.obj",
+"..\Output\common.obj",
+"..\Output\SMG.obj",
+"..\Output\interrupt.obj" 
+TO "..\Output\Example" 
+PRINT(".\Example.m51") RAMSIZE(256) 

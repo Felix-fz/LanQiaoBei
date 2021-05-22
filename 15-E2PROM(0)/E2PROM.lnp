@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"e2prom.obj" 
+TO "E2PROM" 
+RAMSIZE(256) 

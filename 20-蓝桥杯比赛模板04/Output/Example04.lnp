@@ -1,0 +1,8 @@
+"..\Output\STARTUP.obj",
+"..\Output\main.obj",
+"..\Output\interrupt.obj",
+"..\Output\common.obj",
+"..\Output\smg.obj",
+"..\Output\matrixkey.obj" 
+TO "..\Output\Example04" 
+PRINT(".\Example04.m51") RAMSIZE(256) 

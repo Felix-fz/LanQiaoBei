@@ -1,0 +1,125 @@
+C51 COMPILER V9.52.0.0   ____________                                                      05/01/2021 08:36:32 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE ____________
+OBJECT MODULE PLACED IN 串口通信基础.OBJ
+COMPILER INVOKED BY: D:\Keil4\C51\BIN\C51.EXE 串口通信基础.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include "reg52.h"
+   2          #include "stdio.h"
+   3          
+   4          sfr AUXR=0x8e; //51单片机没有要设置地址
+   5          
+   6          sbit S7=P3^0;
+   7          
+   8          unsigned char urdat;
+   9          unsigned char Adata=0;
+  10          void SendByte(unsigned char dat);
+  11          
+  12          void Delay(unsigned char t)
+  13          {
+  14   1              while(t--);
+  15   1      }
+  16          
+  17          void KeyScan()
+  18          {
+  19   1              
+  20   1              if(S7==0)
+  21   1              {
+  22   2                      Delay(100);
+  23   2                      if(S7==0)
+  24   2                      {
+  25   3                              Adata++;
+  26   3      
+  27   3                              while(S7==0);
+  28   3                              SendByte(Adata);                        
+  29   3                      }
+  30   2              }
+  31   1      }
+  32          
+  33          
+  34          //串口初始化函数
+  35          void InitUart()
+  36          {
+  37   1              TMOD = 0x20;  //选择8位自动重装
+  38   1              TH1=0xfd;  //查手册
+  39   1              TL1=0xfd;  //重装模式下二者一样
+  40   1              
+  41   1              TR1=1;
+  42   1              SCON=0x50;
+  43   1              AUXR=0x00;
+  44   1              
+  45   1              ES=1;
+  46   1              EA=1;
+  47   1                      
+  48   1      }
+  49          
+  50          
+  51          
+  52          //接收时要用到中断服务函数
+  53          void ServiceUart() interrupt 4
+  54          {
+  55   1              if(RI == 1)  //数据接收完毕，TI==1发送完毕
+C51 COMPILER V9.52.0.0   ____________                                                      05/01/2021 08:36:32 PAGE 2   
+
+  56   1              {
+  57   2                      RI=0;   //完成清零
+  58   2                      urdat=SBUF;  //读出
+  59   2                      SendByte(urdat); //接收之后要发送
+  60   2              }
+  61   1      }
+  62          
+  63          //查询发送
+  64          void SendByte(unsigned char dat)
+  65          {
+  66   1              SBUF=dat;
+  67   1              while(TI==0);
+  68   1              TI=0;
+  69   1      }
+  70          
+  71          void SendStr(char *s)
+  72          {
+  73   1              while(*s)
+  74   1              {
+  75   2                      SendByte(*s++);
+  76   2              }
+  77   1      }
+  78          
+  79          void main()
+  80          {
+  81   1              unsigned int tim=0;
+  82   1              unsigned int i=0;
+  83   1              unsigned char str[35];
+  84   1              InitUart();
+  85   1      //      SendByte(0x5a);
+  86   1      //      SendByte(0xa5);
+  87   1              
+  88   1              while(1)
+  89   1              {
+  90   2                      tim++;
+  91   2      //              KeyScan();
+  92   2                      sprintf(str,"%d",tim);
+  93   2                      SendStr(str);
+  94   2                      for(i=0;i<60000;i++);
+  95   2      //              for(i=0;i<60000;i++);
+  96   2      //              for(i=0;i<60000;i++);
+  97   2      //              for(i=0;i<60000;i++);
+  98   2                      
+  99   2              }
+ 100   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    244    ----
+   CONSTANT SIZE    =      3    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2      40
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

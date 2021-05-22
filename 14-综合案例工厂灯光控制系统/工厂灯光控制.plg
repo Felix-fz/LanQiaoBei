@@ -1,0 +1,38 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+F:\Workspace\MCU\51MCU\蓝桥杯pre\14-综合案例工厂灯光控制系统\工厂灯光控制.uvproj
+Project File Date:  03/27/2020
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling 工厂灯控制系统.c...
+工厂灯控制系统.c(60): warning C280: 'i': unreferenced local variable
+工厂灯控制系统.c(74): error C202: 'stat_led': undefined identifier
+工厂灯控制系统.c(75): error C202: 'stat_led': undefined identifier
+工厂灯控制系统.c(80): error C202: 'stat_led': undefined identifier
+工厂灯控制系统.c(81): error C202: 'stat_led': undefined identifier
+工厂灯控制系统.c(296): error C100: unprintable character 0xA3 skipped
+工厂灯控制系统.c(296): error C100: unprintable character 0xBB skipped
+工厂灯控制系统.c(297): error C141: syntax error near 'CheckSMG'
+工厂灯控制系统.c(298): error C141: syntax error near 'Init_Timer0'
+Target not created
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling 工厂灯控制系统.c...
+工厂灯控制系统.c(63): warning C280: 'i': unreferenced local variable
+工厂灯控制系统.c(295): error C100: unprintable character 0xA3 skipped
+工厂灯控制系统.c(295): error C100: unprintable character 0xBB skipped
+工厂灯控制系统.c(296): error C141: syntax error near 'CheckSMG'
+工厂灯控制系统.c(297): error C141: syntax error near 'Init_Timer0'
+Target not created
+Rebuild target 'Target 1'
+assembling STARTUP.A51...
+compiling 工厂灯控制系统.c...
+linking...
+Program Size: data=15.0 xdata=0 code=844
+creating hex file from "工厂灯光控制"...
+"工厂灯光控制" - 0 Error(s), 0 Warning(s).

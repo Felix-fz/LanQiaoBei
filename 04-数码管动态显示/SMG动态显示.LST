@@ -1,0 +1,226 @@
+C51 COMPILER V9.52.0.0   SMG________                                                       04/02/2020 00:08:41 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE SMG________
+OBJECT MODULE PLACED IN SMG动态显示.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE SMG动态显示.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include<STC15F2K60S2.H>
+   2          #include"intrins.h"
+   3          
+   4          
+   5          
+   6          //段码设置好不会再变，设置表格形式减少内存
+   7          unsigned char code SMG_Duanma[20] = 
+   8             {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+   9              0x80,0x90,0x88,0x80,0xc6,0xc0,0x86,0x8e,
+  10              0xbf,0x7f,0x3f,0xff};
+  11              
+  12          unsigned char display_buffer[8]={0,2,2,0,0,0,0,0};
+  13          
+  14            
+  15          void SelectHC573(unsigned char channel)
+  16          {
+  17   1        switch(channel)
+  18   1        {
+  19   2          case 4:
+  20   2            P2=(P2 & 0x1f)| 0x80;
+  21   2            break;
+  22   2          case 5:
+  23   2            P2=(P2 & 0x1f)| 0xa0;
+  24   2            break;
+  25   2          case 6:
+  26   2            P2=(P2 & 0x1f)| 0xc0;
+  27   2            break;
+  28   2          case 7:
+  29   2            P2=(P2 & 0x1f)| 0xe0;
+  30   2            break;
+  31   2          case 0:
+  32   2            P2=(P2 & 0x1f)|0x00;
+  33   2        }
+  34   1      }
+  35          
+  36          void DisplaySMG_Bit(unsigned char value , unsigned char pos)
+  37          {
+  38   1        SelectHC573(7);
+  39   1        P0=0xff;   //消影
+  40   1        SelectHC573(6);
+  41   1        P0 = 0x01 << pos;     //选择位置
+  42   1        SelectHC573(0);
+  43   1        SelectHC573(7);
+  44   1        P0 = value;    //选择该位显示的内容
+  45   1      }
+  46          
+  47          
+  48          void Display_SMG_Buffer_Change(unsigned char d0,d1,d2,d3,d4,d5,d6,d7)
+  49          {
+  50   1        display_buffer[0]=d0;
+  51   1        display_buffer[1]=d1;
+  52   1        display_buffer[2]=d2;
+  53   1        display_buffer[3]=d3;
+  54   1        display_buffer[4]=d4;
+  55   1        display_buffer[5]=d5;
+C51 COMPILER V9.52.0.0   SMG________                                                       04/02/2020 00:08:41 PAGE 2   
+
+  56   1        display_buffer[6]=d6;
+  57   1        display_buffer[7]=d7;
+  58   1      }
+  59          
+  60          void DisplaySMG_DT()
+  61          {
+  62   1        static unsigned char num=0;
+  63   1        DisplaySMG_Bit(SMG_Duanma[display_buffer[num]],num);
+  64   1        num++;
+  65   1        if(num==8)
+  66   1          num=0;
+  67   1      }
+  68          
+  69          //*************定时器*************
+  70          void Timer0Init(void)   
+  71          {
+  72   1        AUXR |= 0x80;   
+  73   1        TMOD &= 0xF0;   
+  74   1        TL0 = 0xCD;   
+  75   1        TH0 = 0xD4;   
+  76   1        TF0 = 0;    
+  77   1        TR0 = 1;    
+  78   1      
+  79   1        ET0=1;
+  80   1        EA=1;
+  81   1      }
+  82          
+  83          void Serve_timer0() interrupt 1
+  84          {
+  85   1        DisplaySMG_DT();
+  86   1      }
+  87          
+  88          //*********************************
+  89          
+  90          
+  91          void main()
+  92          {
+  93   1        unsigned char i6=0,i7=0;
+  94   1        SelectHC573(4);
+  95   1        P0=0xff;
+  96   1        Timer0Init();    //定时器中断初始化
+  97   1        
+  98   1      
+  99   1        while(1)
+ 100   1        {
+ 101   2          Display_SMG_Buffer_Change(1,3,5,7,9,2,4,6);
+ 102   2        }
+ 103   1      }
+ 104          
+ 105          
+ 106          
+ 107          
+ 108          
+ 109          
+ 110          
+ 111          
+ 112          
+ 113          
+ 114          
+ 115          
+ 116          
+ 117          
+C51 COMPILER V9.52.0.0   SMG________                                                       04/02/2020 00:08:41 PAGE 3   
+
+ 118          
+ 119          
+ 120          
+ 121          
+ 122          
+ 123          
+ 124          
+ 125          
+ 126          
+ 127          
+ 128          
+ 129          
+ 130          
+ 131          
+ 132          
+ 133          
+ 134          
+ 135          
+ 136          
+ 137          
+ 138          
+ 139          
+ 140          
+ 141          
+ 142          //*******************非中断函数**********************
+ 143          
+ 144          
+ 145          //void DisplaySMG_DT()
+ 146          //{
+ 147          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[0]],0);
+ 148          //  Delay();
+ 149          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[1]],1);
+ 150          //  Delay();
+ 151          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[2]],2);
+ 152          //  Delay();
+ 153          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[3]],3);
+ 154          //  Delay();
+ 155          //  
+ 156          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[4]],4);
+ 157          //  Delay();
+ 158          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[5]],5);
+ 159          //  Delay();
+ 160          //  
+ 161          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[6]],6);
+ 162          //  Delay();
+ 163          //  DisplaySMG_Bit(SMG_Duanma[display_buffer[7]],7);
+ 164          //  Delay();
+ 165          //}
+ 166          
+ 167          
+ 168          
+ 169          //void DelaySMG(unsigned int t)
+ 170          //{
+ 171          //  while(t--)
+ 172          //  {
+ 173          //    DisplaySMG_DT();
+ 174          //  }
+ 175          //}
+ 176          
+ 177          
+ 178          //void main()
+ 179          //{
+C51 COMPILER V9.52.0.0   SMG________                                                       04/02/2020 00:08:41 PAGE 4   
+
+ 180          
+ 181          //  while(1)
+ 182          //  {
+ 183          //    Month++;
+ 184          //    if(Month>60)
+ 185          //    {
+ 186          //      Month=0;
+ 187          //      Fen++;
+ 188          //      if(Fen>9)
+ 189          //      {
+ 190          //        Fen=0;
+ 191          //      }
+ 192          //    }
+ 193          //    Display_SMG_Buffer_Change(19,19,19,19,19,Fen,Month/10,(Month%10));
+ 194          //    DisplaySMG_DT();
+ 195          //    DelaySMG(10);
+ 196          //  }
+ 197          //}
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    269    ----
+   CONSTANT SIZE    =     20    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      9      17
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,65 @@
+C51 COMPILER V9.52.0.0   NIXIE                                                             03/25/2021 23:02:18 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE NIXIE
+OBJECT MODULE PLACED IN ..\Output\nixie.obj
+COMPILER INVOKED BY: D:\Keil4\C51\BIN\C51.EXE ..\System\nixie.c BROWSE INCDIR(..\Main;..\System;..\Library) DEBUG OBJECT
+                    -EXTEND PRINT(.\nixie.lst) TABS(2) OBJECT(..\Output\nixie.obj)
+
+line level    source
+
+   1          #include"nixie.h"
+   2          
+   3          
+   4          unsigned char code duanma[20]=
+   5              {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+   6              0x80,0x90,0x88,0x80,0xc6,0xc0,0x86,0x8e,
+   7              0xbf,0x7f,0x3f,0xFF};
+   8          unsigned char display_buffer[8]={0,0,0,0,0,0,0,0};
+   9              
+  10          void Display_Bit(unsigned char pos,unsigned char value)
+  11          {
+  12   1        SelectHC573(6);
+  13   1        P0=0x01<<pos;
+  14   1        SelectHC573(7);
+  15   1        P0=value;
+  16   1      }
+  17          void Display_Buffer_Change(unsigned char d0,d1,d2,d3,d4,d5,d6,d7)
+  18          {
+  19   1        display_buffer[0]=d0;
+  20   1        display_buffer[1]=d1;
+  21   1        display_buffer[2]=d2;
+  22   1        display_buffer[3]=d3;
+  23   1        display_buffer[4]=d4;
+  24   1        display_buffer[5]=d5;
+  25   1        display_buffer[6]=d6;
+  26   1        display_buffer[7]=d7;
+  27   1      }
+  28          
+  29          
+  30          void Display()
+  31          {
+  32   1        unsigned char num=0;
+  33   1        while(num<8)
+  34   1        {
+  35   2          Display_Bit(num,duanma[display_buffer[num]]);
+  36   2          Delay1ms();
+  37   2          num++;
+  38   2        }
+  39   1        if(num==8)
+  40   1          num=0;
+  41   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     95    ----
+   CONSTANT SIZE    =     20    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8      18
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

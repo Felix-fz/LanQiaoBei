@@ -1,0 +1,55 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              04/06/2020 00:19:16 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN ..\Output\main.obj
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE ..\Main\main.c BROWSE INCDIR(..\Main;..\System;..\Library) DEBUG OBJECTEXTE
+                    -ND PRINT(.\main.lst) TABS(2) OBJECT(..\Output\main.obj)
+
+line level    source
+
+   1          #include"main.h"
+   2          
+   3          unsigned char tmp=0,iic_temp;
+   4          
+   5          void main()
+   6          {
+   7   1        SelectHC573(4);
+   8   1        P0=0xff;
+   9   1      
+  10   1        Init_Timer0();
+  11   1        
+  12   1        Init_DS1302(0x23,0x59,0x55);  //向时钟芯片写入时间数据23:59:55
+  13   1        E2Prom_Write(0,11);
+  14   1        PCF8591_DAC(100); //D->A 0.9V作用 3V在255份中占100份
+  15   1        while(1)
+  16   1        {
+  17   2          if(timer0_flag==1)
+  18   2          {
+  19   3            tmp=E2Prom_Read();
+*** WARNING C209 IN LINE 19 OF ..\Main\main.c: '_E2Prom_Read': too few actual parameters
+  20   3      //      tmp=rd_temperature(); 
+  21   3      //      DS1302_Read();
+  22   3      //      iic_temp=PCF8591_ADC(1); //AIN1
+  23   3            timer0_flag=0;
+  24   3            
+  25   3          }
+  26   2      
+  27   2          Display_Buffer_Change(t_m/10,t_m%10,16,sec/16,sec%16,16,tmp/10,tmp%10);
+  28   2      //    Display_Buffer_Change(16,16,16,16,16,iic_temp/100,(iic_temp%100)/10,iic_temp%10);
+  29   2        }
+  30   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    124    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

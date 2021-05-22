@@ -1,0 +1,143 @@
+C51 COMPILER V9.52.0.0   ________                                                          03/25/2020 12:44:48 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE ________
+OBJECT MODULE PLACED IN 串口进阶.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE 串口进阶.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include"reg52.h"
+   2          
+   3          //sfr AUXR= 0x8e;
+   4          
+   5          void SelectHC573(unsigned char channel)
+   6          {
+   7   1        switch(channel)
+   8   1        {
+   9   2          case 4:
+  10   2            P2=(P2&0x1f)|0x80;
+  11   2          break;
+  12   2          case 5:
+  13   2            P2=(P2&0x1f)|0xa0;
+  14   2          break;
+  15   2          case 6:
+  16   2            P2=(P2&0x1f)|0xc0;
+  17   2          break;
+  18   2          case 7:
+  19   2            P2=(P2&0x1f)|0xe0;
+  20   2          break;
+  21   2          case 0:   //所有锁存器都关闭
+  22   2            P2=(P2&0x1f)|0x00;
+  23   2          break;
+  24   2        }   
+  25   1      }
+  26          
+  27          void InitSystem()  
+  28          {
+  29   1        SelectHC573(5);  //关闭蜂鸣器和继电器
+  30   1        P0=0x00;
+  31   1        SelectHC573(4);
+  32   1        P0=0xff;
+  33   1      }
+  34          
+  35          //****************串口相关代码***************
+  36          void InitUart()
+  37          {
+  38   1        TMOD = 0x20;
+  39   1        TH1=0xfd;  //9600
+  40   1        TL1=0xfd;
+  41   1        TR1=1;   //Open Timer
+  42   1        
+  43   1        SCON=0x50; //配置串口位模式1(八位自动重装模式)
+  44   1        AUXR=0x00;
+  45   1        
+  46   1        ES=1;
+  47   1        EA=1;
+  48   1      }
+  49          
+  50          unsigned char command =0x00; //存放上位机命令的变量
+  51          
+  52          void ServiceUart() interrupt 4
+  53          {
+  54   1        if(RI==1)    //单片机是接收完成进入的中断
+  55   1        {
+C51 COMPILER V9.52.0.0   ________                                                          03/25/2020 12:44:48 PAGE 2   
+
+  56   2          command = SBUF; //读出
+  57   2          RI=0;  //表示位清零
+  58   2        }
+  59   1        
+  60   1        
+  61   1      //  if(TI==1)  //发送完成进入中断的
+  62   1      //  {
+  63   1      //  }
+  64   1      }
+  65          
+  66          void SendByte(unsigned char dat)
+  67          {
+  68   1        SBUF=dat;
+  69   1        while(TI==0);  //要等TI==1就发完即跳出循环
+  70   1        TI=0; //手动清零
+  71   1      }
+  72          
+  73          void SendString(unsigned char *str)  //
+  74          {
+  75   1        while(*str !='\0')
+  76   1        {
+  77   2          SendByte(*str++);
+  78   2        } 
+  79   1      }
+  80          
+  81          //*******************************************
+  82          
+  83          void Working()   //翻译上位机命令
+  84          {
+  85   1        if(command != 0x00)
+  86   1        {
+  87   2          switch(command & 0xf0)   //选出command的高四位
+  88   2          {
+  89   3            case 0xa0:
+  90   3              P0=(P0|0x0f)&(~command|0xf0);
+  91   3              command=0x00;
+  92   3            break;
+  93   3            case 0xb0:
+  94   3              P0=(P0|0xf0)&((~command<<4)|0x0f);
+  95   3              //P0=(~command|0x0f)&(P0|0xf0);
+  96   3              command=0x00;
+  97   3            break;
+  98   3            case 0xc0:
+  99   3              SendString("The System is Running...\r\n");
+ 100   3              command=0x00;   //command要清零，不然在main中while(1)循环
+ 101   3            break;
+ 102   3          }
+ 103   2        }
+ 104   1      }
+ 105          
+ 106          
+ 107          void main()
+ 108          {
+ 109   1        InitSystem();
+ 110   1        InitUart();
+ 111   1        SendString("Welcome to Cople!\r\n");
+ 112   1        while(1)
+ 113   1        {
+ 114   2          Working();
+ 115   2        }
+ 116   1      }
+
+C51 COMPILER V9.52.0.0   ________                                                          03/25/2020 12:44:48 PAGE 3   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    230    ----
+   CONSTANT SIZE    =     47    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

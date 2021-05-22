@@ -1,0 +1,84 @@
+C51 COMPILER V9.52.0.0   __________                                                        03/26/2020 20:56:30 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE __________
+OBJECT MODULE PLACED IN ´æ´¢Æ÷À©Õ¹.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE ´æ´¢Æ÷À©Õ¹.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include"reg52.h"
+   2          #include"absacc.h"
+   3          #include"intrins.h"
+   4          
+   5          
+   6          void Delay()    //@11.0592MHz
+   7          {
+   8   1        unsigned char i, j, k;
+   9   1      
+  10   1        _nop_();
+  11   1        _nop_();
+  12   1        i = 43;
+  13   1        j = 6;
+  14   1        k = 203;
+  15   1        do
+  16   1        {
+  17   2          do
+  18   2          {
+  19   3            while (--k);
+  20   3          } while (--j);
+  21   2        } while (--i);
+  22   1      }
+  23          
+  24          
+  25          
+  26          void LEDRunning()
+  27          {
+  28   1        XBYTE[0x8000]=0xf0;
+  29   1        Delay();
+  30   1        XBYTE[0x8000]=0x0f;
+  31   1        Delay();
+  32   1        XBYTE[0x8000]=0xff;
+  33   1        Delay();
+  34   1      
+  35   1      }
+  36          
+  37          void SMGRunning()
+  38          {
+  39   1        unsigned char i;
+  40   1        for(i=0;i<8;i++)
+  41   1        {
+  42   2          XBYTE[0xc000]=0x01<<i;
+  43   2          XBYTE[0xe000]=0x00;
+  44   2          Delay();
+  45   2        
+  46   2        } 
+  47   1        XBYTE[0xe000]=0xff;
+  48   1        Delay();
+  49   1      
+  50   1      }
+  51          
+  52          void main()
+  53          {
+  54   1        while(1)
+  55   1        {
+C51 COMPILER V9.52.0.0   __________                                                        03/26/2020 20:56:30 PAGE 2   
+
+  56   2          LEDRunning();
+  57   2          SMGRunning();
+  58   2        }
+  59   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     82    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

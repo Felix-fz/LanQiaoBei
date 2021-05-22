@@ -1,0 +1,92 @@
+C51 COMPILER V9.52.0.0   IO____                                                            03/26/2020 20:33:54 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE IO____
+OBJECT MODULE PLACED IN IOÀ©Õ¹.OBJ
+COMPILER INVOKED BY: D:\Keil\C51\BIN\C51.EXE IOÀ©Õ¹.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include"reg52.h"
+   2          
+   3          void Delay(unsigned char t)
+   4          {
+   5   1        while(t--);
+   6   1        while(t--);
+   7   1      }
+   8          
+   9          void SelcetHC573(unsigned char channel)
+  10          {
+  11   1        switch(channel)
+  12   1        {
+  13   2          case 4:
+  14   2            P2=(P2 & 0x1f)|0x80;
+  15   2          break;
+  16   2          case 5:
+  17   2            P2=(P2 & 0x1f)|0xa0;
+  18   2          break;
+  19   2          case 6:
+  20   2            P2=(P2 & 0x1f)|0xc0;
+  21   2          break;
+  22   2          case 7:
+  23   2            P2=(P2 & 0x1f)|0xe0;
+  24   2          break;
+  25   2        }
+  26   1        
+  27   1      }
+  28          
+  29          void LEDRunning()
+  30          {
+  31   1        SelcetHC573(4);
+  32   1        P0=0xf0;
+  33   1        Delay(60000);
+  34   1        Delay(60000);
+  35   1        P0=0x0f;
+  36   1        Delay(60000);
+  37   1        Delay(60000);
+  38   1        P0=0xff;
+  39   1        Delay(60000);
+  40   1        Delay(60000);
+  41   1      }
+  42          
+  43          void SMGRunning()
+  44          {
+  45   1        unsigned char i;
+  46   1        for(i=0;i<8;i++)
+  47   1        {
+  48   2          SelcetHC573(6);
+  49   2          P0=0x01<<i;
+  50   2          SelcetHC573(7);
+  51   2          P0=0x00;
+  52   2          Delay(60000);
+  53   2          Delay(60000);
+  54   2        } 
+  55   1        P0=0xff;
+C51 COMPILER V9.52.0.0   IO____                                                            03/26/2020 20:33:54 PAGE 2   
+
+  56   1        Delay(60000);
+  57   1        Delay(60000);
+  58   1      }
+  59          
+  60          void main()
+  61          {
+  62   1        while(1)
+  63   1        {
+  64   2          LEDRunning();
+  65   2          SMGRunning();
+  66   2        }
+  67   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    157    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

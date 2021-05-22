@@ -1,0 +1,249 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/18/2020  18:06:14  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, PWM调光.obj TO 10-利用脉宽调制控制灯光亮度 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  PWM调光.obj (PWM____)
+  D:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  10-利用脉宽调制控制灯光亮度 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         ?DT?PWM____
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     07F2H                  *** GAP ***
+            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
+            CODE    088CH     0041H     UNIT         ?PR?KEYSCAN?PWM____
+            CODE    08CDH     0031H     UNIT         ?PR?SERVICETIMER0?PWM____
+            CODE    08FEH     000EH     UNIT         ?PR?_SELECTHC573?PWM____
+            CODE    090CH     000EH     UNIT         ?PR?INIT_TIMER0?PWM____
+            CODE    091AH     000DH     UNIT         ?PR?MAIN?PWM____
+            CODE    0927H     000AH     UNIT         ?C_INITSEG
+            CODE    0931H     0007H     UNIT         ?PR?_DELAY?PWM____
+
+
+
+OVERLAY MAP OF MODULE:   10-利用脉宽调制控制灯光亮度 (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?PWM____
+  +--> ?C_INITSEG
+
+?PR?MAIN?PWM____
+  +--> ?PR?_SELECTHC573?PWM____
+  +--> ?PR?INIT_TIMER0?PWM____
+  +--> ?PR?KEYSCAN?PWM____
+
+?PR?KEYSCAN?PWM____
+  +--> ?PR?_DELAY?PWM____
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/18/2020  18:06:14  PAGE 2
+
+
+
+
+SYMBOL TABLE OF MODULE:  10-利用脉宽调制控制灯光亮度 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0800H         SEGMENT       ?C_C51STARTUP
+  I:000BH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0803H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0800H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0800H         LINE#         133
+  C:0802H         LINE#         134
+  C:0803H         LINE#         135
+  C:0804H         LINE#         136
+  C:0806H         LINE#         185
+  C:0809H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        PWM____
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0008H         PUBLIC        pwm_duty
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  B:00A8H.7       PUBLIC        EA
+  D:00E8H         PUBLIC        P6
+  D:00F8H         PUBLIC        P7
+  B:00B0H.0       PUBLIC        S7
+  C:08CDH         PUBLIC        ServiceTimer0
+  D:00A8H         PUBLIC        IE
+  C:08FEH         PUBLIC        _SelectHC573
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/18/2020  18:06:14  PAGE 3
+
+
+  D:00B8H         PUBLIC        IP
+  D:0009H         PUBLIC        state
+  D:00D8H         PUBLIC        CCON
+  C:091AH         PUBLIC        main
+  C:090CH         PUBLIC        Init_Timer0
+  C:088CH         PUBLIC        KeyScan
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:000AH         PUBLIC        cnt
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  C:0931H         PUBLIC        _Delay
+  D:00D0H         PUBLIC        PSW
+  B:0080H.0       PUBLIC        L1
+  -------         PROC          _SELECTHC573
+  D:0007H         SYMBOL        channel
+  C:08FEH         LINE#         9
+  C:08FEH         LINE#         10
+  C:08FEH         LINE#         11
+  C:0903H         LINE#         12
+  C:0903H         LINE#         13
+  C:0903H         LINE#         14
+  C:090BH         LINE#         15
+  C:090BH         LINE#         16
+  C:090BH         LINE#         17
+  -------         ENDPROC       _SELECTHC573
+  -------         PROC          INIT_TIMER0
+  C:090CH         LINE#         20
+  C:090CH         LINE#         21
+  C:090CH         LINE#         22
+  C:090FH         LINE#         23
+  C:0912H         LINE#         24
+  C:0915H         LINE#         26
+  C:0917H         LINE#         27
+  C:0919H         LINE#         29
+  -------         ENDPROC       INIT_TIMER0
+  -------         PROC          SERVICETIMER0
+  C:08CDH         LINE#         31
+  C:08D1H         LINE#         33
+  C:08D4H         LINE#         34
+  C:08D7H         LINE#         36
+  C:08D9H         LINE#         37
+  C:08E0H         LINE#         38
+  C:08E0H         LINE#         39
+  C:08E2H         LINE#         40
+  C:08E4H         LINE#         41
+  C:08EBH         LINE#         42
+  C:08EBH         LINE#         43
+  C:08EDH         LINE#         44
+  C:08EFH         LINE#         45
+  C:08F4H         LINE#         46
+  C:08F4H         LINE#         47
+  C:08F6H         LINE#         48
+  C:08F9H         LINE#         49
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/18/2020  18:06:14  PAGE 4
+
+
+  C:08F9H         LINE#         50
+  -------         ENDPROC       SERVICETIMER0
+  -------         PROC          _DELAY
+  D:0007H         SYMBOL        t
+  C:0931H         LINE#         58
+  C:0931H         LINE#         59
+  C:0931H         LINE#         60
+  C:0937H         LINE#         61
+  -------         ENDPROC       _DELAY
+  -------         PROC          KEYSCAN
+  C:088CH         LINE#         65
+  C:088CH         LINE#         66
+  C:088CH         LINE#         67
+  C:088FH         LINE#         68
+  C:088FH         LINE#         69
+  C:0894H         LINE#         70
+  C:0897H         LINE#         71
+  C:0897H         LINE#         72
+  C:08A6H         LINE#         73
+  C:08A6H         LINE#         74
+  C:08A6H         LINE#         75
+  C:08A8H         LINE#         76
+  C:08AAH         LINE#         77
+  C:08ADH         LINE#         78
+  C:08B0H         LINE#         79
+  C:08B2H         LINE#         81
+  C:08B2H         LINE#         82
+  C:08B5H         LINE#         83
+  C:08B8H         LINE#         84
+  C:08BAH         LINE#         86
+  C:08BAH         LINE#         87
+  C:08BDH         LINE#         88
+  C:08C0H         LINE#         89
+  C:08C2H         LINE#         91
+  C:08C2H         LINE#         92
+  C:08C4H         LINE#         93
+  C:08C6H         LINE#         94
+  C:08C9H         LINE#         95
+  C:08C9H         LINE#         96
+  C:08C9H         LINE#         97
+  C:08CCH         LINE#         98
+  C:08CCH         LINE#         99
+  C:08CCH         LINE#         100
+  -------         ENDPROC       KEYSCAN
+  -------         PROC          MAIN
+  C:091AH         LINE#         108
+  C:091AH         LINE#         109
+  C:091AH         LINE#         110
+  C:091FH         LINE#         111
+  C:0922H         LINE#         112
+  C:0922H         LINE#         113
+  C:0922H         LINE#         114
+  C:0925H         LINE#         115
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        PWM____
+
+******************************************************************************
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/18/2020  18:06:14  PAGE 5
+
+
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 00BDH BYTE ( 9%) *
+******************************************************************************
+
+Program Size: data=12.0 xdata=0 code=318
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

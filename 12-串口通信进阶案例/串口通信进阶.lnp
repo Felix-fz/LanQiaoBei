@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"串口进阶.obj" 
+TO "串口通信进阶" 
+RAMSIZE(256) 
